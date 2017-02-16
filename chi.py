@@ -36,8 +36,7 @@ class Chi(object):
                     self.frequency_matrix[row,col] += np.where(self.sorted_data[np.where(indices == row)][:,1] == clase)[0].shape[0]
             chitest, counter, smallest = {}, 0, -1
             while self.frequency_matrix.shape[0] > self.max_number_intervals: # CHI2 TEST
-                chitest = {} 
-                shape = self.frequency_matrix.shape
+                chitest, shape = {}, self.frequency_matrix.shape
                 for r in range(shape[0] - 1):
                     interval = r,r+1
                     chi2 = self.chisqrt(self.frequency_matrix[[interval],:][0])
@@ -62,7 +61,6 @@ class Chi(object):
     def chisqrt(self, array): # Calculatinh CHi2
         shape = array.shape
         N = float(array.sum())  # total number of observations
-        shape = array.shape
         r, c, chisqr = {}, {}, 0
         for i in range(shape[0]):
             r[i] = array[i].sum()
