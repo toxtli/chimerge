@@ -4,7 +4,7 @@ import math, operator
 class Chi(object):
 
     data, sorted_data, frequency_matrix, frequency_matrix_intervals = None, None, None, None
-    min_number_intervals, nclasses, nattrinutes, degrees_freedom, issorted = 2, -1, -1, -1, False
+    min_number_intervals, nclasses, nattrinutes, degrees_freedom = 2, -1, -1, -1
 
     def run(self, min_expected_value=0, max_number_intervals=6, threshold=5):
         self.min_expected_value = min_expected_value
@@ -23,16 +23,7 @@ class Chi(object):
                         counter += 1
                     data.append('{} {}'.format(' '.join(['{}'.format(float(tmp[x])) for x in attribute_columns]), vocab[class_label]))
             data = np.matrix(';'.join([x for x in data])) # numpy.matrix (x,2). column index 0 refers to attributes column and index 1 classes
-            if type(data) != np.matrix and type(data) != np.array:
-                return
-            if not self.issorted:
-                self.sorted_data = np.array(np.sort(data.view('i8,i8'), order=['f0'], axis=0).view(np.float))   #always sorting column 0 (attribute column)
-            else:
-                self.sorted_data = np.array(data)
-            if self.sorted_data is None:
-                return
-            if self.sorted_data.shape[1] != 2:
-                return
+            self.sorted_data = np.array(np.sort(data.view('i8,i8'), order=['f0'], axis=0).view(np.float)) # always sorting column 0 (attribute column)
             unique_attribute_values, indices = np.unique(self.sorted_data[:,0], return_inverse=True)    # first intervals: unique attribute values
             unique_class_values = np.unique(self.sorted_data[:,1])                                      # classes (column index 1)
             self.frequency_matrix = np.zeros((len(unique_attribute_values), len(unique_class_values)))  # init frequency_matrix
@@ -43,8 +34,6 @@ class Chi(object):
             for row in np.unique(indices):
                 for col, clase in enumerate(unique_class_values):
                     self.frequency_matrix[row,col] += np.where(self.sorted_data[np.where(indices == row)][:,1] == clase)[0].shape[0]
-            if self.frequency_matrix is None:
-                return
             chitest, counter, smallest = {}, 0, -1
             while self.frequency_matrix.shape[0] > self.max_number_intervals: # CHI2 TEST
                 chitest = {} 
