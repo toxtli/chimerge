@@ -4,7 +4,7 @@ import math, operator
 class Chi(object):
 
     data, sorted_data, frequency_matrix, frequency_matrix_intervals = None, None, None, None
-    min_number_intervals, nclasses, nattrinutes, degrees_freedom = 2, -1, -1, -1
+    min_number_intervals, nclasses, nattributes, degrees_freedom = 2, -1, -1, -1
 
     def run(self, min_expected_value=0, max_number_intervals=6, threshold=5):
         self.min_expected_value = min_expected_value
