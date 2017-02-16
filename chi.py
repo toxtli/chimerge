@@ -4,7 +4,7 @@ import math, operator
 class Chi(object):
 
     data, sorted_data, frequency_matrix, frequency_matrix_intervals = None, None, None, None
-    min_number_intervals, nclasses, nattrinutes, degrees_freedom = 2, -1, -1, -1
+    min_number_intervals, nclasses, nattributes, degrees_freedom = 2, -1, -1, -1
 
     def run(self, min_expected_value=0, max_number_intervals=6, threshold=5):
         self.min_expected_value = min_expected_value
@@ -58,7 +58,7 @@ class Chi(object):
             print('{}{}'.format('Chi2: ',', '.join(['[{}-{}):{:5.1f}'.format(v[0][0],v[0][1],k) for k,v in sorted(chitest.items(), key=operator.itemgetter(1),reverse=False)])))
             print('{} ({}x{})\n{}'.format('Interval-Class Frequencies',self.frequency_matrix.shape[0],self.frequency_matrix.shape[1],self.frequency_matrix))
 
-    def chisqrt(self, array): # Calculatinh CHi2
+    def chisqrt(self, array): # Calculating CHi2
         shape = array.shape
         N = float(array.sum())  # total number of observations
         r, c, chisqr = {}, {}, 0
